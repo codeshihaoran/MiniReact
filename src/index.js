@@ -153,8 +153,6 @@ function commitWork(fiber) {
   }
   let domParent = domParentFiber.dom
   if (fiber.effectTag === "PLACEMENT" && fiber.dom !== null) {
-    console.log(domParent);
-    console.log(fiber.dom);
     domParent.appendChild(fiber.dom)
   }
   if (fiber.effectTag === "UPDATE" && fiber.dom !== null) {
@@ -211,6 +209,7 @@ function updateDom(dom, prevProps, nextProps) {
       )
     })
 
+  // 在更新部分补充ref.current所需要节点
   Object.keys(nextProps)
     .filter(isProps)
     .filter(isNew(prevProps, nextProps))
@@ -255,13 +254,15 @@ function useState(value) {
 }
 
 function useRef(initialValue) {
+  const oldHook = wipFiber.alternate && wipFiber.alternate.hooks && wipFiber.alternate.hooks[hookIndex]
+  console.log("oldHook：", oldHook);
+  const currentValue = oldHook ? oldHook.current : initialValue
   const hook = {
-    current: initialValue
+    current: currentValue
   }
   if (!wipFiber.hooks) {
     wipFiber.hooks = []
   }
-  console.log(hookIndex);
   wipFiber.hooks[hookIndex] = hook
   hookIndex++
   return hook
