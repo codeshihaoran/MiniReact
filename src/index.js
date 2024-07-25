@@ -321,7 +321,7 @@ function Counter() {
   const inputRef = Didact.useRef(null)
   const a = 1
   useEffect(() => {
-    console.log('abc');
+    console.log('123456');
     return () => {
       console.log('123');
     }
