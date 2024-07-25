@@ -255,7 +255,6 @@ function useState(value) {
 
 function useRef(initialValue) {
   const oldHook = wipFiber.alternate && wipFiber.alternate.hooks && wipFiber.alternate.hooks[hookIndex]
-  console.log("oldHook：", oldHook);
   const currentValue = oldHook ? oldHook.current : initialValue
   const hook = {
     current: currentValue
@@ -267,18 +266,66 @@ function useRef(initialValue) {
   hookIndex++
   return hook
 }
+function useEffect(effectCallback, dependencyList) {
+  let oldHook = wipFiber.alternate
+    && wipFiber.alternate.hooks
+    && wipFiber.alternate.hooks[hookIndex]
+  if (Object.prototype.toString.call(effectCallback) !== '[object Function]') {
+    throw new Error('useEffect第一个参数为回调函数')
+  } else {
+    if (!dependencyList) {
+      // 每次渲染都执行
+      effectCallback()
+      return
+    }
+    if (!Array.isArray(dependencyList)) {
+      throw new Error('useEffect第二个参数为数组')
+    }
+    if (dependencyList.length === 0) {
+      // 初始渲染时执行一次
+      const old = wipFiber.alternate
+      if (!old) {
+        effectCallback()
+      }
+      return
+    }
+    let cleanup = 'cleanup'
+    const hook = {
+      dependencyList,
+      cleanup
+    }
+    let hasChange = oldHook ? !dependencyList.every((value, index) => value === oldHook.dependencyList[index]) : true
+    if (hasChange) {
+      if (oldHook && oldHook.cleanup) {
+        oldHook.cleanup()
+      }
+      const cleanupFunction = effectCallback()
+      hook[cleanup] = cleanupFunction
+    }
+    wipFiber.hooks[hookIndex] = hook
+    hookIndex++
+  }
 
+}
 const Didact = {
   createElement,
   render,
   useState,
-  useRef
+  useRef,
+  useEffect
 }
 
 /** @jsx Didact.createElement */
 function Counter() {
   const [state, setState] = Didact.useState(1)
   const inputRef = Didact.useRef(null)
+  const a = 1
+  useEffect(() => {
+    console.log('abc');
+    return () => {
+      console.log('123');
+    }
+  }, [state])
   function handleClick() {
     inputRef.current.focus()
   }
