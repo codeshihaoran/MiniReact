@@ -1,3 +1,4 @@
+import App from './App'
 
 function createElement(type, props, ...children) {
   // 通过调用该函数返回的dom树数据结构
@@ -307,42 +308,14 @@ function useEffect(effectCallback, dependencyList) {
   }
 
 }
-const Didact = {
+
+export {
   createElement,
-  render,
   useState,
   useRef,
   useEffect
 }
 
-/** @jsx Didact.createElement */
-function Counter() {
-  const [state, setState] = Didact.useState(1)
-  const inputRef = Didact.useRef(null)
-  const a = 1
-  useEffect(() => {
-    console.log('123456');
-    return () => {
-      console.log('123');
-    }
-  }, [state])
-  function handleClick() {
-    inputRef.current.focus()
-  }
-  return (
-    <div>
-      <h1 onClick={() => setState(c => c + 1)}>
-        Count: {state}
-      </h1>
-      <input ref={inputRef}></input>
-      <button onClick={handleClick}>
-        聚焦输入框
-      </button>
-    </div>
-  )
-}
-const element = <Counter />
-
+/** @jsx createElement */
 const container = document.getElementById('root')
-Didact.render(element, container)
-
+render(<App />, container)
