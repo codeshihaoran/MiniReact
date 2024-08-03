@@ -1,12 +1,9 @@
 // 测试
-import {
-    createElement,
-    useState,
-    useRef,
-    useEffect,
-    useMemo,
-} from './index'
-
+import { createElement } from './index'
+import useState from './Hooks/useState'
+import useRef from './Hooks/useRef'
+import useEffect from './Hooks/useEffect'
+import useMemo from './Hooks/useMemo'
 /** @jsx createElement */
 function App() {
     const [state, setState] = useState(1)

@@ -1,4 +1,13 @@
 import App from './App'
+import { initialIndex } from './compentens/hookIndex'
+
+let globalState = {
+  nextUnitOfWork: null,
+  deletions: null,
+  wipRoot: null,
+  currentRoot: null,
+  wipFiber: null
+}
 
 function createElement(type, props, ...children) {
   // 通过调用该函数返回的dom树数据结构
@@ -24,28 +33,25 @@ function createTextElement(text) {
   }
 }
 function render(element, container) {
-  wipRoot = {
+  globalState.wipRoot = {
     dom: container,
     props: {
       children: [element]
     },
-    alternate: currentRoot,
+    alternate: globalState.currentRoot,
   }
-  nextUnitOfWork = wipRoot
-  deletions = []
+  globalState.nextUnitOfWork = globalState.wipRoot;
+  globalState.deletions = [];
 }
-let nextUnitOfWork = null
-let wipRoot = null
-let currentRoot = null
-let deletions = null
+
 // concurrent Mode
 function workLoop(deadline) {
   let shouldYield = false
-  while (nextUnitOfWork && !shouldYield) {
-    nextUnitOfWork = performUnitOfWork(nextUnitOfWork)
+  while (globalState.nextUnitOfWork && !shouldYield) {
+    globalState.nextUnitOfWork = performUnitOfWork(globalState.nextUnitOfWork);
     shouldYield = deadline.timeRemaining() < 1
   }
-  if (wipRoot && !nextUnitOfWork) {
+  if (globalState.wipRoot && !globalState.nextUnitOfWork) {
     commitRoot()
   }
   requestIdleCallback(workLoop)
@@ -123,7 +129,7 @@ function reconcileChildren(wipFiber, elements) {
     if (!sameType && oldFiber) {
       // 删除
       oldFiber.effectTag = "DELETION"
-      deletions.push(oldFiber)
+      globalState.deletions.push(oldFiber)
     }
     if (oldFiber) {
       oldFiber = oldFiber.sibling
@@ -139,10 +145,10 @@ function reconcileChildren(wipFiber, elements) {
 }
 function commitRoot() {
   // 将节点插入dom中去
-  deletions.forEach(commitWork)
-  commitWork(wipRoot.child)
-  currentRoot = wipRoot
-  wipRoot = null
+  globalState.deletions.forEach(commitWork)
+  commitWork(globalState.wipRoot.child)
+  globalState.currentRoot = globalState.wipRoot
+  globalState.wipRoot = null
 }
 function commitWork(fiber) {
   if (!fiber) {
@@ -218,138 +224,14 @@ function updateDom(dom, prevProps, nextProps) {
       dom[name] = nextProps[name]
     })
 }
-let wipFiber = null
-let hookIndex = null
 function updateFunctionComponent(fiber) {
-  wipFiber = fiber
-  hookIndex = 0
-  wipFiber.hooks = []
+  globalState.wipFiber = fiber
+  initialIndex()
+  globalState.wipFiber.hooks = []
   const children = [fiber.type(fiber.props)]
   reconcileChildren(fiber, children)
 }
-function useState(value) {
-  let oldHook = wipFiber.alternate
-    && wipFiber.alternate.hooks
-    && wipFiber.alternate.hooks[hookIndex]
-  const hook = {
-    state: oldHook ? oldHook.state : value,
-    quene: []
-  }
-  let actions = oldHook ? oldHook.quene : []
-  actions.forEach(action => {
-    hook.state = action(hook.state)
-  })
-  const setState = action => {
-    hook.quene.push(action)
-    wipRoot = {
-      dom: currentRoot.dom,
-      props: currentRoot.props,
-      alternate: currentRoot
-    }
-    nextUnitOfWork = wipRoot
-    deletions = []
-  }
-  wipFiber.hooks.push(hook)
-  hookIndex++
-  return [hook.state, setState]
-}
-
-function useRef(initialValue) {
-  const oldHook = wipFiber.alternate && wipFiber.alternate.hooks && wipFiber.alternate.hooks[hookIndex]
-  const currentValue = oldHook ? oldHook.current : initialValue
-  const hook = {
-    current: currentValue
-  }
-  if (!wipFiber.hooks) {
-    wipFiber.hooks = []
-  }
-  wipFiber.hooks[hookIndex] = hook
-  hookIndex++
-  return hook
-}
-function useEffect(effectCallback, dependencyList) {
-  let oldHook = wipFiber.alternate
-    && wipFiber.alternate.hooks
-    && wipFiber.alternate.hooks[hookIndex]
-  if (Object.prototype.toString.call(effectCallback) !== '[object Function]') {
-    throw new Error('useEffect第一个参数为回调函数')
-  } else {
-    if (!dependencyList) {
-      // 每次渲染都执行
-      effectCallback()
-      return
-    }
-    if (!Array.isArray(dependencyList)) {
-      throw new Error('useEffect第二个参数为数组')
-    }
-    if (dependencyList.length === 0) {
-      // 初始渲染时执行一次
-      const old = wipFiber.alternate
-      if (!old) {
-        effectCallback()
-      }
-      return
-    }
-    let cleanup = 'cleanup'
-    const hook = {
-      dependencyList,
-      cleanup
-    }
-    let hasChange = oldHook ? !dependencyList.every((value, index) => value === oldHook.dependencyList[index]) : true
-    if (hasChange) {
-      if (oldHook && oldHook.cleanup) {
-        oldHook.cleanup()
-      }
-      const cleanupFunction = effectCallback()
-      hook[cleanup] = cleanupFunction
-    }
-    wipFiber.hooks[hookIndex] = hook
-    hookIndex++
-  }
-
-}
-function memoHook(calculateValue, dependencies) {
-  const result = calculateValue()
-  const hook = {
-    res: result,
-    dep: dependencies
-  }
-  wipFiber.hooks[hookIndex] = hook
-  hookIndex++
-  return hook.res
-}
-function useMemo(calculateValue, dependencies) {
-  let oldHook = wipFiber.alternate
-    && wipFiber.alternate.hooks
-    && wipFiber.alternate.hooks[hookIndex]
-  if (!oldHook) {
-    console.log('初始化渲染，计算值并保存');
-    return memoHook(calculateValue, dependencies)
-  } else {
-    let index = 0
-    while (index < dependencies.length) {
-      // React 使用 Object.is 将每个依赖项与其之前的值进行比较
-      if (Object.is(oldHook.dep[index], dependencies[index])) {
-        index++
-      } else {
-        console.log('依赖项发生变化，重新计算值');
-        return memoHook(calculateValue, dependencies)
-      }
-    }
-    console.log('依赖项未发生变化，返回原来值');
-    wipFiber.hooks[hookIndex] = oldHook
-    hookIndex++
-    return oldHook.res
-  }
-
-}
-export {
-  createElement,
-  useState,
-  useRef,
-  useEffect,
-  useMemo
-}
+export { createElement, globalState }
 
 /** @jsx createElement */
 const container = document.getElementById('root')
