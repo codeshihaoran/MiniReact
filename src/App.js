@@ -4,6 +4,7 @@ import useState from './Hooks/useState'
 import useRef from './Hooks/useRef'
 import useEffect from './Hooks/useEffect'
 import useMemo from './Hooks/useMemo'
+import useLayoutEffect from './Hooks/useLayoutEffect'
 /** @jsx createElement */
 function App() {
     const [state, setState] = useState(1)
@@ -12,11 +13,17 @@ function App() {
         return state * 2
     }, [state])
     useEffect(() => {
-        console.log('123456');
+        console.log('Effect');
         return () => {
-            console.log('123');
+            console.log('Effect cleanup');
         }
     }, [state])
+    useLayoutEffect(() => {
+        console.log('LayoutEffect');
+        return () => {
+            console.log('Layout cleanup');
+        };
+    }, [state]);
     function handleClick() {
         inputRef.current.focus()
     }
