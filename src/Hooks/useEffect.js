@@ -9,7 +9,7 @@ function useEffect(effectCallback, dependencyList) {
     } else {
         if (!dependencyList) {
             // 每次渲染都执行
-            effectCallback()
+            queueMicrotask(effectCallback);
             return
         }
         if (!Array.isArray(dependencyList)) {
@@ -19,7 +19,7 @@ function useEffect(effectCallback, dependencyList) {
             // 初始渲染时执行一次
             const old = globalState.wipFiber.alternate
             if (!old) {
-                effectCallback()
+                queueMicrotask(effectCallback);
             }
             return
         }
@@ -31,10 +31,15 @@ function useEffect(effectCallback, dependencyList) {
         let hasChange = oldHook ? !dependencyList.every((value, index) => value === oldHook.dependencyList[index]) : true
         if (hasChange) {
             if (oldHook && oldHook.cleanup) {
-                oldHook.cleanup()
+                queueMicrotask(() => {
+                    oldHook.cleanup()
+                })
+
             }
-            const cleanupFunction = effectCallback()
-            hook[cleanup] = cleanupFunction
+            queueMicrotask(() => {
+                const cleanupFunction = effectCallback();
+                hook[cleanup] = cleanupFunction;
+            });
         }
         globalState.wipFiber.hooks[getHookIndex()] = hook
         addHookIndex()
