@@ -5,6 +5,7 @@ import useRef from './Hooks/useRef'
 import useEffect from './Hooks/useEffect'
 import useMemo from './Hooks/useMemo'
 import useLayoutEffect from './Hooks/useLayoutEffect'
+import useCallback from './Hooks/useCallback'
 /** @jsx createElement */
 function App() {
     const [state, setState] = useState(1)
@@ -12,6 +13,10 @@ function App() {
     const value = useMemo(() => {
         return state * 2
     }, [state])
+    const callBack = useCallback(() => {
+        return state
+    }, [state])
+    console.log(callBack());
     useEffect(() => {
         console.log('Effect');
         return () => {
