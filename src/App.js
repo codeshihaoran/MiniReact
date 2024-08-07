@@ -1,4 +1,4 @@
-// 测试
+// Hook
 import { createElement } from './index'
 import useState from './Hooks/useState'
 import useRef from './Hooks/useRef'
@@ -6,6 +6,10 @@ import useEffect from './Hooks/useEffect'
 import useMemo from './Hooks/useMemo'
 import useLayoutEffect from './Hooks/useLayoutEffect'
 import useCallback from './Hooks/useCallback'
+
+// page
+import Home from './page/home'
+
 /** @jsx createElement */
 function App() {
     const [state, setState] = useState(1)
@@ -42,6 +46,7 @@ function App() {
                 聚焦输入框
             </button>
             <h1>useMemo测试值：{value}</h1>
+            <Home />
         </div>
     )
 }
