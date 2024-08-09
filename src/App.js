@@ -10,9 +10,6 @@ import useCallback from './Hooks/useCallback'
 // css
 import './App.css'
 
-// page
-import Home from './page/Home/home'
-
 // compentens
 import Navbar from './compentens/Navbar'
 import Main from './compentens/Main'

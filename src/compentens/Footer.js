@@ -3,7 +3,8 @@ import { createElement } from "../index"
 const Footer = () => {
     return (
         <footer className="footer">
-            <p>&copy; 2024 我的博客 | 版权所有</p>
+            <p>To learn more please click：<a href="https://github.com/codeshihaoran/MiniReact">github</a></p>
+            <p>&copy; 2024 Shr</p>
         </footer>
     )
 }
