@@ -7,14 +7,23 @@ import useMemo from './Hooks/useMemo'
 import useLayoutEffect from './Hooks/useLayoutEffect'
 import useCallback from './Hooks/useCallback'
 
+// css
+import './App.css'
+
 // page
 import Home from './page/Home/home'
 
+// compentens
+import Navbar from './compentens/Navbar'
+import Main from './compentens/Main'
+import Footer from './compentens/Footer'
 /** @jsx createElement */
 function App() {
     return (
-        <div>
-            <Home />
+        <div className="app">
+            <Navbar />
+            <Main />
+            <Footer />
         </div>
     )
 }
