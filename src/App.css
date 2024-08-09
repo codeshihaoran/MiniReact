@@ -1,38 +1,77 @@
+body {
+    background-color: #f7f7f7;
+}
+
 .app {
-    display: flex;
-    flex-direction: column;
+    max-width: 1170px;
     min-height: 100vh;
+    background-color: #fff;
+    margin: 0 auto;
 }
 
-.navbar {
-    background-color: #333;
-    color: #fff;
-    padding: 1rem;
+.blog {
+    box-sizing: border-box;
+    max-width: 770px;
+    width: 100%;
+    padding: 80px 10px 10px;
+    margin: 0 auto;
 }
 
-.navbar nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
+.header {
+    line-height: 1.8rem;
 }
 
-.navbar nav ul li {
-    margin-right: 10px;
+.head-top {
+    text-align: center;
+    margin-bottom: 1.5rem;
 }
 
-.navbar nav ul li a {
+.head-top .name {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.head-top .name a {
+    display: inline-block;
+    background-color: #f03838;
     color: #fff;
     text-decoration: none;
+    -webkit-transition: padding 0.3s ease-out;
+    transition: padding 0.3s ease-out;
 }
 
-.main-content {
-    flex: 1;
-    padding: 1rem;
+.head-top .name a:hover {
+    padding: 0 0.8rem;
 }
 
-.footer {
-    background-color: #333;
-    color: #fff;
+.head-top p {
+    color: #9e9e9e;
+    font-size: 1.1rem;
+    margin: 1rem 0 0
+}
+
+.head-bot {
     text-align: center;
-    padding: 1rem;
+}
+
+.head-bot ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 1.6em;
+}
+
+.head-bot ul li {
+    display: inline-block;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+
+}
+
+.head-bot ul li a {
+    color: #f03838;
+    font-size: 1.2rem;
+    line-height: 2rem;
+    text-decoration: none;
+    padding: 0 1rem;
 }

@@ -21,9 +21,11 @@ import Footer from './compentens/Footer'
 function App() {
     return (
         <div className="app">
-            <Navbar />
-            <Main />
-            <Footer />
+            <div className='blog'>
+                <Navbar />
+                <Main />
+                <Footer />
+            </div>
         </div>
     )
 }
