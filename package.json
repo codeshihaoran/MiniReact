@@ -7,7 +7,8 @@
   "dependencies": {
     "react": "16.8.6",
     "react-dom": "16.8.6",
-    "react-scripts": "3.0.1"
+    "react-scripts": "3.0.1",
+    "react-router-dom": "^6.18.0"
   },
   "devDependencies": {
     "typescript": "3.3.3"
