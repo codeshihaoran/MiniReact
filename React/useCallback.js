@@ -1,5 +1,5 @@
-import { globalState } from "../index"
-import { getHookIndex, addHookIndex } from "../compentens/hookIndex"
+import { globalState } from "../src/index"
+import { getHookIndex, addHookIndex } from "../src/compentens/hookIndex"
 
 
 function createHook(fn, dependencies) {

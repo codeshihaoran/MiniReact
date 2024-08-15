@@ -1,5 +1,7 @@
-import { globalState } from "../index"
-import { getHookIndex, addHookIndex } from "../compentens/hookIndex"
+import { globalState } from "../src/index"
+import { getHookIndex, addHookIndex } from "../src/compentens/hookIndex"
+
+
 function useState(value) {
     let oldHook = globalState.wipFiber.alternate
         && globalState.wipFiber.alternate.hooks

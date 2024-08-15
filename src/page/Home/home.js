@@ -1,9 +1,9 @@
 import { createElement } from "../../index"
-import useState from "../../Hooks/useState"
 import './home.css'
+import useState from "../../../React/useState"
 /** @jsx createElement */
 const Home = () => {
-    // const [value, setValue] = useState(1)
+    const [state, setState] = useState(0)
     return (
         <div className="container">
             <div className="header">

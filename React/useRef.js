@@ -1,5 +1,7 @@
-import { globalState } from "../index"
-import { getHookIndex, addHookIndex } from "../compentens/hookIndex"
+import { globalState } from "../src/index"
+import { getHookIndex, addHookIndex } from "../src/compentens/hookIndex"
+
+
 function useRef(initialValue) {
     const oldHook = globalState.wipFiber.alternate && globalState.wipFiber.alternate.hooks && globalState.wipFiber.alternate.hooks[getHookIndex()]
     const currentValue = oldHook ? oldHook.current : initialValue
