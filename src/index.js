@@ -1,6 +1,5 @@
 import App from './App'
 import { initialIndex } from './compentens/hookIndex'
-
 let globalState = {
   nextUnitOfWork: null,
   deletions: null,
@@ -235,4 +234,9 @@ export { createElement, globalState }
 
 /** @jsx createElement */
 const container = document.getElementById('root')
-render(<App />, container)
+render(
+
+  <App />,
+
+  container
+)

@@ -8,12 +8,6 @@ const Navbar = () => {
                 <p>WELCOME TO MY BLOG</p>
             </div>
             <div className="head-bot">
-                <ul>
-                    <li><a href="#">首页</a></li>
-                    <li><a href="#">文章</a></li>
-                    <li><a href="#">新闻</a></li>
-                    <li><a href="#">关于</a></li>
-                </ul>
             </div>
 
         </header>
