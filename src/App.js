@@ -11,9 +11,9 @@ import useCallback from './Hooks/useCallback'
 import './App.css'
 
 // compentens
-import Navbar from './compentens/Navbar'
-import Main from './compentens/Main'
-import Footer from './compentens/Footer'
+import Navbar from './compentens/navbar'
+import Main from './compentens/main'
+import Footer from './compentens/footer'
 /** @jsx createElement */
 function App() {
     return (
