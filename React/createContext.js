@@ -13,3 +13,4 @@ const createContext = (defaultValue) => {
     }
     return context
 }
+export default createContext
