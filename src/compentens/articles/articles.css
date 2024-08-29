@@ -10,7 +10,7 @@ body {
     margin-top: 4rem;
 }
 
-.article .article-title {
+.article-title {
     position: relative;
     color: #212121;
     font-size: 1.8rem;
@@ -20,27 +20,27 @@ body {
     padding: 0 2rem;
 }
 
-.article .article-title a {
+.article-title a {
     display: block;
     color: #212121;
 }
 
-.article .article-title a span {
+.article-title a span {
     padding-bottom: 3px;
     -webkit-transition: 0.15s;
     transition: 0.15s;
     box-shadow: inset 0 -2px 0 rgba(240, 56, 56, 0);
 }
 
-.article .article-title a:hover {
+.article-title a:hover {
     color: #212121;
 }
 
-.article .article-title a:hover span {
+.article-title a:hover span {
     box-shadow: inset 0 -2px 0 rgba(240, 56, 56, 0.4);
 }
 
-.article .article-top-meta {
+.article-top-meta {
     position: relative;
     color: #9e9e9e;
     font-size: 1.3rem;
@@ -48,97 +48,97 @@ body {
     margin: 1rem 0;
 }
 
-.article .article-top-meta span {
+.article-top-meta span {
     margin: 0 0.5rem;
 }
 
-.article .article-top-meta a {
+.article-top-meta a {
     color: #9e9e9e;
 }
 
-.article .article-top-meta a:hover {
+.article-top-meta a:hover {
     color: #f03838;
 }
 
-.article .article-top-meta a time {
+.article-top-meta a time {
     font-style: italic;
 }
 
-.article .article-excerpt,
-.article .article-content,
-.article .featured-media {
+.article-excerpt,
+.article-content,
+.featured-media {
     margin: 4rem 0;
     font-size: 1.2rem;
     color: #424242;
 }
 
-.article .article-excerpt .excerpt-btn,
-.article .article-content .excerpt-btn,
-.article .featured-media .excerpt-btn {
+.article-excerpt .excerpt-btn,
+.article-content .excerpt-btn,
+.featured-media .excerpt-btn {
     margin: 4rem 0;
     font-size: 1.4rem;
 }
 
-.article .article-excerpt img,
-.article .article-content img,
-.article .featured-media img {
+.article-excerpt img,
+.article-content img,
+.featured-media img {
     display: block;
     max-width: 100%;
     height: auto;
     margin: 1rem auto;
 }
 
-.article .article-footer .pull-left {
+.article-footer .pull-left {
     float: left;
 }
 
-.article .article-footer .pull-right {
+.article-footer .pull-right {
     float: right;
 }
 
-.article .article-footer:after {
+.article-footer:after {
     content: " ";
     display: block;
     clear: both;
 }
 
-.article .article-footer .article-meta>span:not(:last-child) {
+.article-footer .article-meta>span:not(:last-child) {
     margin-right: 3rem;
 }
 
-.article .article-footer .article-meta>span {
+.article-footer .article-meta>span {
     display: inline-block;
 }
 
-.article .article-footer .article-meta>span>span {
+.article-footer .article-meta>span>span {
     line-height: 1;
     vertical-align: middle;
 }
 
-.article .article-footer .article-meta {
+.article-footer .article-meta {
     font-size: 1.1rem;
     color: #9e9e9e;
 }
 
-.article .article-footer .article-meta a {
+.article-footer .article-meta a {
     color: #9e9e9e;
 }
 
-.article .article-footer .article-meta a:hover {
+.article-footer .article-meta a:hover {
     color: #f03838;
 }
 
-.article .article-footer .article-meta i {
+.article-footer .article-meta i {
     vertical-align: middle;
     color: #9e9e9e;
     margin-right: 0.5rem;
 }
 
-.article .article-footer .post-tags a:before {
+.article-footer .post-tags a:before {
     content: "#";
 }
 
-.article .article-footer .post-tags a:not(:last-of-type):after {
+.article-footer .post-tags a:not(:last-of-type):after {
     content: ",";
     padding-right: 5px;
 }
