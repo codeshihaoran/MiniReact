@@ -24,3 +24,4 @@ const ArticleTwo = () => {
     )
 }
 export default ArticleTwo
+export { articleInfo }
