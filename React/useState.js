@@ -15,7 +15,12 @@ function useState(value) {
         hook.state = action(hook.state)
     })
     const setState = action => {
-        hook.quene.push(action)
+        const type = typeof action
+        if (type !== 'function') {
+            hook.state = action
+        } else {
+            hook.quene.push(action)
+        }
         globalState.wipRoot = {
             dom: globalState.currentRoot.dom,
             props: globalState.currentRoot.props,
