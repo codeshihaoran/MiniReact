@@ -1,0 +1,39 @@
+.wrap {
+    margin: 0 auto;
+}
+
+.logo {
+    margin-top: 1.2rem;
+}
+
+.logo h1 {
+    font-size: 200px;
+    color: #8F8E8C;
+    text-align: center;
+    margin: 1rem auto;
+    text-shadow: 1px 1px 6px #fff;
+}
+
+.logo p {
+    color: rgb(228, 146, 162);
+    font-size: 1.8rem;
+    margin-top: 1px;
+    text-align: center;
+}
+
+.logo p span {
+    color: lightgreen;
+}
+
+.sub a {
+    color: white;
+    background: #8F8E8C;
+    text-decoration: none;
+    padding: 7px 120px;
+    font-size: 1.2rem;
+    font-family: arial, serif;
+    font-weight: bold;
+    -webkit-border-radius: 3em;
+    -moz-border-radius: .1em;
+    -border-radius: .1em;
+}

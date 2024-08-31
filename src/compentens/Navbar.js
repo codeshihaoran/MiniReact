@@ -1,5 +1,5 @@
 import { createElement } from "../index"
-import Link from "../router/link"
+import Link from "./link"
 /** @jsx createElement */
 const Navbar = () => {
     return (

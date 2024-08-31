@@ -1,6 +1,6 @@
-import { createElement } from "../index";
-import useState from "../../React/useState";
-import useEffect from "../../React/useEffect";
+import { createElement } from "../src/index";
+import useState from "../React/useState";
+import useEffect from "../React/useEffect";
 /** @jsx createElement */
 const Router = ({ children }) => {
     const [currentPath, setCurrentPath] = useState(window.location.hash.slice(1) || "/");
