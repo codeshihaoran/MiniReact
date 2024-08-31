@@ -29,6 +29,7 @@ const About = () => {
                         <li>通过不依赖 context 的方式，构建了基本的 HashRouter、Route 和 Link 组件</li>
                         <li>搭建当前的博客网站，目的为了验证 Hooks 的实用性，以及 DOM 是否正确渲染，路由正确使用</li>
                         <li>在博客中，涉及大量的底层技术的核心和概念，旨为手把手教你手写 React && Router 简易版本。</li>
+                        <li>本文章围绕原项目 MiniReact 去讲述，有任何问题可在 Issues 中提问。</li>
                     </ul>
                 </div>
 
