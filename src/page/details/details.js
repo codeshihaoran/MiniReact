@@ -1,32 +1,25 @@
 import './details.css'
-import marked from 'marked'
-import useEffect from '../../../React/useEffect'
-import useState from '../../../React/useState'
+import Detail from '../../compentens/detail';
 import { createElement } from '../../index'
-import mdPath from '../../../docs/JSX.md';
-import useRef from '../../../React/useRef'
-
+import mdPathOne from '../../../docs/jsx.md'
+import mdPathTwo from '../../../docs/fiber.md'
+import mdPathThr from '../../../docs/hooks.md'
 
 /** @jsx createElement */
 const Details = () => {
-    const dom = useRef(null)
-    const [htmlContent, setHtmlContent] = useState('');
-    useEffect(() => {
-        fetch(mdPath)
-            .then(response => response.text())
-            .then(markdownText => {
-                console.log(markdownText); // 原文：this is article
-                const html = marked(markdownText);// 转换成html：<h2>this is article</h2>
-                setHtmlContent(html);
-            })
-    }, [mdPath]);
-    useEffect(() => {
-        if (dom.current) {
-            dom.current.innerHTML = htmlContent
-        }
-    }, [htmlContent])
+
     return (
-        <div className='all' ref={dom}></div>
+        <div>
+            <Detail
+                mdPath={mdPathOne}
+            />
+            <Detail
+                mdPath={mdPathTwo}
+            />
+            <Detail
+                mdPath={mdPathThr}
+            />
+        </div>
     );
 }
 export default Details
