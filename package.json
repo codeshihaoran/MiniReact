@@ -5,9 +5,11 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "marked": "^2.0.0",
     "react-scripts": "3.0.1"
   },
   "devDependencies": {
+    "@types/marked": "^6.0.0",
     "customize-cra": "^1.0.0",
     "react-app-rewired": "^2.2.1",
     "rescripts": "^0.0.1-security",
