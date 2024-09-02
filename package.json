@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "react-app-rewired --openssl-legacy-provider start",
-    "build": "react-scripts build",
+    "build": "react-app-rewired --openssl-legacy-provider build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },

@@ -1,20 +1,37 @@
 import './articles.css'
 import { createElement } from '../../index'
-
+import marked from 'marked'
+import useEffect from '../../../React/useEffect'
+import useState from '../../../React/useState'
 /** @jsx createElement */
-const Articles = ({ info }) => {
+const Articles = () => {
+    const [issuesList, setIssueList] = useState(null)
+    useEffect(() => {
+        const fetchIssue = async () => {
+            const response = await fetch('https://api.github.com/repos/codeshihaoran/MiniReact/issues/1', {
+                headers: {
+                    'Authorization': `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`,
+                },
+            })
+            const data = await response.json()
+            setIssueList(data)
+        }
+        fetchIssue()
+    }, [])
+    console.log('666', issuesList);
+
     return (
         <div className='article'>
             <h3 className="article-title">
                 <a href="#">
-                    <span>{info.title}</span>
+                    <span></span>
                 </a>
             </h3>
             <div className="article-top-meta">
                 <span className="posted-on">
                     <a href="#" rel="bookmark">
                         <time className="entry-date published" datetime="">
-                            {info.time}
+
                         </time>
                     </a>
                 </span>
@@ -22,23 +39,23 @@ const Articles = ({ info }) => {
             <div className="article-content">
                 <div className="entry">
                     <h1 id="前言"><a href="#" className="headerlink" title="前言"></a>前言</h1>
-                    <p>{info.preface}</p>
-                    {info.value}
-                    <p>{info.last}</p>
+                    <p></p>
+
+                    <p></p>
                 </div>
             </div>
             <div className="article-footer">
                 <div className="article-meta pull-left">
                     <span className="post-categories">
                         <i className="icon-categories"></i>
-                        <a href="#">{info.category}</a>
+                        <a href="#"></a>
                     </span>
                     <span className="post-tags">
                         <i className="icon-tags"></i>
-                        <a href="#">{info.tagOne}</a>
-                        <a href="#">{info.tagTwo}</a>
-                        <a href="#">{info.tagThree}</a>
-                        <a href="#">{info.tagFour}</a>
+                        <a href="#"></a>
+                        <a href="#"></a>
+                        <a href="#"></a>
+                        <a href="#"></a>
                     </span>
                 </div>
             </div>

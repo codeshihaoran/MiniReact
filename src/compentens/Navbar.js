@@ -12,7 +12,6 @@ const Navbar = () => {
                 <ul>
                     <li><Link to={'/home'}>首页</Link></li>
                     <li><Link to={'/article'}>归档</Link></li>
-                    <li><Link to={'/details'}>文章</Link></li>
                     <li><Link to={'/about'}>关于</Link></li>
                 </ul>
             </div>
