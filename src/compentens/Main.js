@@ -1,7 +1,6 @@
 import { createElement } from "../index"
 
 import Home from '../page/Home/home'
-import Article from "../page/Article/article"
 import About from "../page/About/about"
 import NotFound from "./error/error"
 
@@ -15,7 +14,6 @@ const Main = () => {
         <main className="main-content">
             <Switch>
                 <Route path={'/home'} component={Home}></Route>
-                <Route path={'/article'} component={Article} ></Route>
                 <Route path={'/about'} component={About}></Route>
                 <Route path={''} component={NotFound}></Route>
             </Switch>

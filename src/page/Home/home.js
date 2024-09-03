@@ -1,13 +1,11 @@
 import { createElement } from "../../index"
 import './home.css'
 import useState from "../../../React/useState"
-import marked from 'marked'
 import useEffect from "../../../React/useEffect"
 import Articles from "../../compentens/articles/articles"
 /** @jsx createElement */
 const Home = () => {
     const [issuesList, setIssueList] = useState([])
-    const a = [1, 2, 3]
     useEffect(() => {
         const fetchIssue = async () => {
             const response = await fetch('https://api.github.com/repos/codeshihaoran/MiniReact/issues', {
@@ -22,10 +20,11 @@ const Home = () => {
     }, [])
 
     if (issuesList && issuesList.length > 0) {
-        console.log(issuesList);
-
         return (
             <div className="container">
+                <div className='home-title'>
+                    <h2>归档</h2>
+                </div>
                 <Articles
                     title={issuesList[0].title}
                     time={issuesList[0].created_at}

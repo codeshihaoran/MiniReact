@@ -1,0 +1,9 @@
+.home-title {
+    position: relative;
+    color: #212121;
+    font-size: 1.4rem;
+    line-height: 1.3;
+    text-align: center;
+    margin: 0;
+    padding: 0 2rem;
+}

@@ -5,7 +5,7 @@ import '../../compentens/articles/articles.css'
 const About = () => {
     return (
         <div className="about">
-            <h3 className="article-title"><span>About</span></h3>
+            <h3 className="about-title"><h2>About</h2></h3>
             <div className="article-top-meta">
                 <span className="posted-on">
                     <a href="/about/" rel="bookmark">
