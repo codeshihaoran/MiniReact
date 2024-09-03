@@ -14,7 +14,7 @@ const Main = () => {
     return (
         <main className="main-content">
             <Switch>
-                <Route path={'/home'} component={Home}></Route>
+                <Route path={'/'} component={Home}></Route>
                 <Route path={'/about'} component={About}></Route>
                 <Route path={'/detail'} component={Detail}></Route>
                 <Route path={''} component={NotFound}></Route>

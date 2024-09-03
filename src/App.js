@@ -15,12 +15,6 @@ import Main from '../src/compentens/main'
 import Footer from '../src/compentens/footer'
 /** @jsx createElement */
 function App() {
-    let pathName = window.location.pathname
-    useEffect(() => {
-        if (pathName === '/') {
-            window.location.replace('/home');
-        }
-    }, [])
     return (
         <div className="app">
             <div className='blog'>
