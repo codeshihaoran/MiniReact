@@ -25,21 +25,13 @@ const Home = () => {
                 <div className='home-title'>
                     <h2>归档</h2>
                 </div>
-                <Articles
-                    title={issuesList[0].title}
-                    time={issuesList[0].created_at}
-                    number={issuesList[0].number}
-                />
-                <Articles
-                    title={issuesList[1].title}
-                    time={issuesList[1].created_at}
-                    number={issuesList[1].number}
-                />
-                <Articles
-                    title={issuesList[2].title}
-                    time={issuesList[2].created_at}
-                    number={issuesList[2].number}
-                />
+                {issuesList.map(item => (
+                    <Articles
+                        title={item.title}
+                        time={item.created_at}
+                        number={item.number}
+                    />
+                ))}
             </div>
         )
 
