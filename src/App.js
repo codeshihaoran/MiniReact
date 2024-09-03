@@ -10,9 +10,9 @@ import useCallback from '../React/useCallback'
 import './App.css'
 
 // compentens
-import Navbar from './compentens/navbar'
-import Main from './compentens/main'
-import Footer from './compentens/footer'
+import Navbar from '../src/compentens/navbar'
+import Main from '../src/compentens/main'
+import Footer from '../src/compentens/footer'
 /** @jsx createElement */
 function App() {
     let pathName = window.location.pathname
