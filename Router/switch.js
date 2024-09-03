@@ -4,7 +4,6 @@ const Switch = ({ children }) => {
     const match = children.find(child => {
         return child.props.path === pathName;
     });
-
     if (!match) {
         return children[last]
     }

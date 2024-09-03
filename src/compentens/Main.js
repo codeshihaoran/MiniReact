@@ -2,6 +2,7 @@ import { createElement } from "../index"
 
 import Home from '../page/Home/home'
 import About from "../page/About/about"
+import Detail from "../page/detail/detail"
 import NotFound from "./error/error"
 
 
@@ -15,6 +16,7 @@ const Main = () => {
             <Switch>
                 <Route path={'/home'} component={Home}></Route>
                 <Route path={'/about'} component={About}></Route>
+                <Route path={'/detail'} component={Detail}></Route>
                 <Route path={''} component={NotFound}></Route>
             </Switch>
         </main>

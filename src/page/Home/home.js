@@ -28,17 +28,17 @@ const Home = () => {
                 <Articles
                     title={issuesList[0].title}
                     time={issuesList[0].created_at}
-                    body={issuesList[0].body}
+                    number={issuesList[0].number}
                 />
                 <Articles
                     title={issuesList[1].title}
                     time={issuesList[1].created_at}
-                    body={issuesList[1].body}
+                    number={issuesList[1].number}
                 />
                 <Articles
                     title={issuesList[2].title}
                     time={issuesList[2].created_at}
-                    body={issuesList[2].body}
+                    number={issuesList[2].number}
                 />
             </div>
         )

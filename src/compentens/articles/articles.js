@@ -1,8 +1,9 @@
 import './articles.css'
 import { createElement } from '../../index'
 import marked from 'marked'
+import Link from '../link'
 /** @jsx createElement */
-const Articles = ({ title, time, body }) => {
+const Articles = ({ title, time, number }) => {
     return (
         <div className="article-name">
             <div className="archive">
@@ -13,7 +14,7 @@ const Articles = ({ title, time, body }) => {
                         </time>
                         <h3 className="archive-title">
                             <a href="#">
-                                <span>{title}</span>
+                                <span><Link to={`detail?articleId=${number}`}>{title}</Link></span>
                             </a>
                         </h3>
                     </div>
