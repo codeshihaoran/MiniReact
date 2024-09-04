@@ -44,7 +44,11 @@
 
 ## MiniReact-Blog
 
-基于 `MiniReact` 框架搭建的博客平台。
+基于 `MiniReact` 框架搭建的博客平台，已通过 `Vercel` 部署上线。
+
+通过以下链接来访问 MiniReact-Blog：
+
+[MiniReact-Blog](https://codeshr.site)
 
 ### Home 
 
