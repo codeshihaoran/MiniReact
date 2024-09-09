@@ -167,6 +167,7 @@ function commitWork(fiber) {
   if (fiber.effectTag === "DELETION") {
     // domParent.removeChild(fiber.dom)
     commitDeletion(fiber, domParent)
+    return
   }
 
   commitWork(fiber.child)
