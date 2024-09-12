@@ -3,9 +3,12 @@ import './home.css'
 import useState from "../../../React/useState"
 import useEffect from "../../../React/useEffect"
 import Articles from "../../compentens/articles/articles"
+import useMemo from "../../../React/useMemo"
 /** @jsx createElement */
 const Home = () => {
     const [issuesList, setIssueList] = useState([])
+    const [currentPage, setCurrentPage] = useState(1)
+    const pageSize = 5
     useEffect(() => {
         const fetchIssue = async () => {
             const response = await fetch('https://api.github.com/repos/codeshihaoran/MiniReact/issues', {
@@ -17,21 +20,38 @@ const Home = () => {
             setIssueList(data)
         }
         fetchIssue()
-    }, [])
-
+    }, [issuesList])
+    const totalPages = useMemo(() => Math.ceil(issuesList.length / pageSize), [issuesList])
+    const currentPageData = issuesList.slice(
+        (currentPage - 1) * pageSize,
+        currentPage * pageSize
+    )
     if (issuesList && issuesList.length > 0) {
         return (
             <div className="container">
                 <div className='home-title'>
                     <h2>归档</h2>
                 </div>
-                {issuesList.map(item => (
+                {currentPageData.map(item => (
                     <Articles
                         title={item.title}
                         time={item.created_at}
                         number={item.number}
                     />
                 ))}
+                <nav className="pagination">
+                    {
+                        currentPage !== 1 ? <button className="pagination-prev" onClick={() => setCurrentPage(c => c - 1)}>
+                            上一页
+                        </button> : ''
+                    }
+
+                    {
+                        currentPage !== totalPages ? <button className="pagination-next" onClick={() => setCurrentPage(c => c + 1)}>
+                            下一页
+                        </button> : ''
+                    }
+                </nav>
             </div>
         )
 
