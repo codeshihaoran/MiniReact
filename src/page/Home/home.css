@@ -41,3 +41,11 @@
     background-color: #f03838;
     border-color: #f03838;
 }
+
+.loading {
+    text-align: center;
+}
+
+.err {
+    color: red;
+}
