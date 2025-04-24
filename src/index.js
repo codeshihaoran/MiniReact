@@ -43,6 +43,9 @@ function render(element, container) {
   globalState.deletions = [];
 }
 
+// 这里要兼容一下浏览器不支持 requestIdleCallback
+const rIC = requestIdleCallback ?? setTimeout
+
 // concurrent Mode
 function workLoop(deadline) {
   let shouldYield = false
@@ -53,9 +56,14 @@ function workLoop(deadline) {
   if (globalState.wipRoot && !globalState.nextUnitOfWork) {
     commitRoot()
   }
-  requestIdleCallback(workLoop)
+  rIC((deadline) => {
+    workLoop(deadline)
+  })
 }
-requestIdleCallback(workLoop)
+
+rIC((deadline) => {
+  workLoop(deadline)
+})
 
 function createDom(fiber) {
   const dom =

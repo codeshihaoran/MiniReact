@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "dependencies": {
     "marked": "^2.0.0",
-    "react-scripts": "3.0.1"
+    "react-scripts": "^3.0.1"
   },
   "devDependencies": {
     "@types/marked": "^6.0.0",
