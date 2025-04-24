@@ -44,18 +44,20 @@ function render(element, container) {
 }
 
 // 这里要兼容一下浏览器不支持 requestIdleCallback
-const rIC = requestIdleCallback || function (callback) {
-  return setTimeout(() => {
-    const start = Date.now()
-    const deadline = {
-      timeRemaining: () => {
-        const elapsed = Date.now() - start
-        return Math.max(0, 16 - elapsed) // 指定每帧为 16ms
+const rIC = typeof requestIdleCallback !== undefined
+  ? requestIdleCallback
+  : function (callback) {
+    return setTimeout(() => {
+      const start = Date.now()
+      const deadline = {
+        timeRemaining: () => {
+          const elapsed = Date.now() - start
+          return Math.max(0, 16 - elapsed) // 指定每帧为 16ms
+        }
       }
-    }
-    callback(deadline)
-  }, 1)
-}
+      callback(deadline)
+    }, 1)
+  }
 
 // concurrent Mode
 function workLoop(deadline) {
