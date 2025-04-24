@@ -44,7 +44,7 @@ function render(element, container) {
 }
 
 // 这里要兼容一下浏览器不支持 requestIdleCallback
-const rIC = typeof requestIdleCallback !== undefined
+const rIC = typeof requestIdleCallback !== 'undefined'
   ? requestIdleCallback
   : function (callback) {
     return setTimeout(() => {
