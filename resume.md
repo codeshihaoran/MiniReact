@@ -1,12 +1,20 @@
 ### 联系方式
 
-石浩然     18393481934 shihaoran.code@gmail.com
+<div class="contact-row">
+  <span>石浩然</span>
+  <span>18393481934</span>
+  <span>shihaoran.code@gmail.com</span>
+</div>
 
 ---
 
 ### 教育经历
 
-兰州城市学院                                            机器人工程                                                       2022-2026
+<div class="edu-row">
+  <span>兰州城市学院</span>
+  <span>机器人工程</span>
+  <span>2022-2026</span>
+</div>
 
 ---
 
