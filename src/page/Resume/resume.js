@@ -9,6 +9,7 @@ import marked from "marked"
 const Resume = () => {
     const [resume, setResume] = useState('')
     const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
     const dom = useRef(null)
     useEffect(() => {
         const fetchCV = async () => {
@@ -19,7 +20,8 @@ const Resume = () => {
                 setResume(md)
                 setLoading(false)
             } catch (err) {
-                console.log(err);
+                setLoading(false)
+                setError(err)
             }
         }
         fetchCV()
@@ -32,7 +34,16 @@ const Resume = () => {
     }, [resume])
     if (loading) {
         return (
-            <div>加载中...</div>
+            <div className="loading">
+                <h3>加载中...</h3>
+            </div>
+        )
+    }
+    if (error) {
+        return (
+            <div className="loading">
+                <h3 className="err">加载失败: {error.message}</h3>
+            </div>
         )
     }
     return (
