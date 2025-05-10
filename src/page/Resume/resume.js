@@ -8,6 +8,7 @@ import marked from "marked"
 /** @jsx createElement */
 const Resume = () => {
     const [resume, setResume] = useState('')
+    const [loading, setLoading] = useState(true)
     const dom = useRef(null)
     useEffect(() => {
         const fetchCV = async () => {
@@ -16,6 +17,7 @@ const Resume = () => {
                 const data = await response.text()
                 const md = marked(data)
                 setResume(md)
+                setLoading(false)
             } catch (err) {
                 console.log(err);
             }
@@ -28,6 +30,11 @@ const Resume = () => {
             dom.current.innerHTML = resume
         }
     }, [resume])
+    if (loading) {
+        return (
+            <div>加载中...</div>
+        )
+    }
     return (
         <div>
             <div ref={dom}></div>
