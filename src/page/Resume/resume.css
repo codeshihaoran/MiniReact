@@ -1,0 +1,25 @@
+.contact-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.contact-row span {
+    white-space: nowrap;
+}
+
+.edu-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.edu-row span {
+    white-space: nowrap;
+}
