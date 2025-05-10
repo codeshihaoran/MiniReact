@@ -12,7 +12,7 @@ const Resume = () => {
     useEffect(() => {
         const fetchCV = async () => {
             try {
-                const response = await fetch('https://raw.githubusercontent.com/codeshihaoran/MiniReact/main/resume.md')
+                const response = await fetch('https://cdn.jsdelivr.net/gh/codeshihaoran/MiniReact@main/resume.md')
                 const data = await response.text()
                 const md = marked(data)
                 setResume(md)
