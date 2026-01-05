@@ -169,16 +169,21 @@ function reconcileChildren(wipFiber, elements) {
 
 // commit 阶段
 function commitRoot() {
-  // mutation：操作DOM
+  // mutation：操作 DOM
   globalState.deletions.forEach(commitMutationEffects)
   commitMutationEffects(globalState.wipRoot.child)
-  // layout：布局，处理 effect
-  commitLayoutEffects(globalState.wipRoot.child)
+  // layout：收集&同步执行 layouteffect
+  const layoutEffectList = collectLayoutEffects(globalState.wipRoot.child)
+  flushLayoutEffects(layoutEffectList)
+  // passive：收集&异步执行 effect
+  const effectList = collectPassiveEffects(globalState.wipRoot.child)
+  schedulePassiveEffects(effectList)
   // 存储旧 fiber 树
   globalState.currentRoot = globalState.wipRoot
   globalState.wipRoot = null
 }
 
+// mutation
 function commitMutationEffects(fiber) {
   if (!fiber) return
 
@@ -211,24 +216,65 @@ function commitDeletion(fiber, domParent) {
   }
 }
 
-function commitLayoutEffects(fiber) {
-  if (!fiber) return
+// layout
+function collectLayoutEffects(fiber, layoutEffectList = []) {
+  if (!fiber) return layoutEffectList
 
   const isFunction = fiber.type instanceof Function
-  if (isFunction) {
-    commitLayoutEffectOnFiber(fiber.layoutEffectUpdateQueue)
+  if (
+    isFunction &&
+    fiber.layoutEffectUpdateQueue &&
+    fiber.layoutEffectUpdateQueue.length > 0
+  ) {
+    layoutEffectList.push(...fiber.layoutEffectUpdateQueue)
   }
 
-  commitLayoutEffects(fiber.child)
-  commitLayoutEffects(fiber.sbling)
+  collectLayoutEffects(fiber.child, layoutEffectList)
+  collectLayoutEffects(fiber.sibling, layoutEffectList)
+
+  return layoutEffectList
 }
 
-function commitLayoutEffectOnFiber(updateQueue) {
-  if (updateQueue.length === 0) return
-
-  updateQueue.forEach(effect => {
+function flushLayoutEffects(layoutEffectList) {
+  if (!layoutEffectList || layoutEffectList.length === 0) return
+  layoutEffectList.forEach(effect => {
+    if (effect.cleanup) {
+      effect.cleanup()
+    }
     const cleanup = effect.create()
     effect.cleanup = cleanup
+  })
+}
+
+// passive
+function collectPassiveEffects(fiber, effectList = []) {
+  if (!fiber) return effectList
+
+  const isFunction = fiber.type instanceof Function
+  if (
+    isFunction &&
+    fiber.effectUpdateQueue &&
+    fiber.effectUpdateQueue.length > 0
+  ) {
+    effectList.push(...fiber.effectUpdateQueue)
+  }
+
+  collectPassiveEffects(fiber.child, effectList)
+  collectPassiveEffects(fiber.sibling, effectList)
+
+  return effectList
+}
+
+function schedulePassiveEffects(effectList) {
+  if (!effectList || effectList.length === 0) return
+  queueMicrotask(() => {
+    effectList.forEach(effect => {
+      if (effect.cleanup) {
+        effect.cleanup()
+      }
+      const cleanup = effect.create()
+      effect.cleanup = cleanup
+    })
   })
 }
 
@@ -282,7 +328,7 @@ function updateFunctionComponent(fiber) {
   initialIndex()
   globalState.wipFiber.hooks = []
   globalState.wipFiber.layoutEffectUpdateQueue = []
-  globalState.wipFiber.EffectUpdateQueue = []
+  globalState.wipFiber.effectUpdateQueue = []
   const children = [fiber.type(fiber.props)]
   reconcileChildren(fiber, children)
 }

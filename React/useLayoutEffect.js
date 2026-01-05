@@ -1,17 +1,17 @@
 import { globalState } from "../src/index"
 import { getHookIndex, addHookIndex } from "../src/compentens/hookIndex"
 
-function createHook(setup, dependencies) {
+function createHook(setup, dependencies, cleanup = null) {
     const effect = {
         create: setup,
-        cleanup: null
+        cleanup: cleanup
     }
     const hook = {
         dependencies,
         effect
     }
     globalState.wipFiber.hooks[getHookIndex()] = hook
-    globalState.wipFiber.updateQueue.push(effect)
+    globalState.wipFiber.layoutEffectUpdateQueue.push(effect)
     addHookIndex()
 }
 
@@ -25,6 +25,7 @@ function useLayoutEffect(setup, dependencies) {
     let oldHook = globalState.wipFiber.alternate
         && globalState.wipFiber.alternate.hooks
         && globalState.wipFiber.alternate.hooks[getHookIndex()]
+
     if (!oldHook) {
         if (Object.prototype.toString.call(setup) !== '[object Function]') {
             throw new Error('useLayoutEffect第一个参数为回调函数')
@@ -39,10 +40,10 @@ function useLayoutEffect(setup, dependencies) {
 
     const prevDependencies = oldHook.dependencies
     if (!prevDependencies) {
-        oldHook.effect.cleanup()
-        createHook(setup, dependencies)
+        createHook(setup, dependencies, oldHook.effect.cleanup)
         return
     }
+
     if (prevDependencies.length === 0) {
         copyHook(oldHook)
         return
@@ -53,11 +54,11 @@ function useLayoutEffect(setup, dependencies) {
         if (Object.is(prevDependencies[index], dependencies[index])) {
             index++
         } else {
-            oldHook.effect.cleanup()
-            createHook(setup, dependencies)
+            createHook(setup, dependencies, oldHook.effect.cleanup)
             return
         }
     }
     copyHook(oldHook)
 }
+
 export default useLayoutEffect
