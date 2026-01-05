@@ -1,5 +1,6 @@
 import App from './App'
 import { initialIndex } from './compentens/hookIndex'
+
 let globalState = {
   nextUnitOfWork: null,
   deletions: null,
@@ -31,6 +32,7 @@ function createTextElement(text) {
     }
   }
 }
+
 function render(element, container) {
   globalState.wipRoot = {
     dom: container,
@@ -116,6 +118,7 @@ function updateHostComponent(fiber) {
   }
   reconcileChildren(fiber, fiber.props.children)
 }
+
 function reconcileChildren(wipFiber, elements) {
   let index = 0
   let oldFiber = wipFiber.alternate && wipFiber.alternate.child
@@ -163,22 +166,28 @@ function reconcileChildren(wipFiber, elements) {
     index++
   }
 }
+
+// commit 阶段
 function commitRoot() {
-  // 将节点插入dom中去
-  globalState.deletions.forEach(commitWork)
-  commitWork(globalState.wipRoot.child)
+  // mutation：操作DOM
+  globalState.deletions.forEach(commitMutationEffects)
+  commitMutationEffects(globalState.wipRoot.child)
+  // layout：布局，处理 effect
+  commitLayoutEffects(globalState.wipRoot.child)
+  // 存储旧 fiber 树
   globalState.currentRoot = globalState.wipRoot
   globalState.wipRoot = null
 }
-function commitWork(fiber) {
-  if (!fiber) {
-    return
-  }
+
+function commitMutationEffects(fiber) {
+  if (!fiber) return
+
   let domParentFiber = fiber.parent
   while (!domParentFiber.dom) {
     domParentFiber = domParentFiber.parent
   }
   let domParent = domParentFiber.dom
+
   if (fiber.effectTag === "PLACEMENT" && fiber.dom !== null) {
     domParent.appendChild(fiber.dom)
   }
@@ -186,14 +195,14 @@ function commitWork(fiber) {
     updateDom(fiber.dom, fiber.alternate.props, fiber.props)
   }
   if (fiber.effectTag === "DELETION") {
-    // domParent.removeChild(fiber.dom)
     commitDeletion(fiber, domParent)
     return
   }
 
-  commitWork(fiber.child)
-  commitWork(fiber.sibling)
+  commitMutationEffects(fiber.child)
+  commitMutationEffects(fiber.sibling)
 }
+
 function commitDeletion(fiber, domParent) {
   if (fiber.dom) {
     domParent.removeChild(fiber.dom)
@@ -201,6 +210,28 @@ function commitDeletion(fiber, domParent) {
     commitDeletion(fiber.child, domParent)
   }
 }
+
+function commitLayoutEffects(fiber) {
+  if (!fiber) return
+
+  const isFunction = fiber.type instanceof Function
+  if (isFunction) {
+    commitLayoutEffectOnFiber(fiber.layoutEffectUpdateQueue)
+  }
+
+  commitLayoutEffects(fiber.child)
+  commitLayoutEffects(fiber.sbling)
+}
+
+function commitLayoutEffectOnFiber(updateQueue) {
+  if (updateQueue.length === 0) return
+
+  updateQueue.forEach(effect => {
+    const cleanup = effect.create()
+    effect.cleanup = cleanup
+  })
+}
+
 // 移除旧属性 添加新属性
 const isNew = (prev, next) => key => prev[key] !== next[key]
 const isProps = key => key !== "children" && !isEvent(key)
@@ -245,20 +276,22 @@ function updateDom(dom, prevProps, nextProps) {
       dom[name] = nextProps[name]
     })
 }
+
 function updateFunctionComponent(fiber) {
   globalState.wipFiber = fiber
   initialIndex()
   globalState.wipFiber.hooks = []
+  globalState.wipFiber.layoutEffectUpdateQueue = []
+  globalState.wipFiber.EffectUpdateQueue = []
   const children = [fiber.type(fiber.props)]
   reconcileChildren(fiber, children)
 }
-export { createElement, globalState }
 
 /** @jsx createElement */
 const container = document.getElementById('root')
 render(
-
   <App />,
-
   container
 )
+
+export { createElement, globalState }
