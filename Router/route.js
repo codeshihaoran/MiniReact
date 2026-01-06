@@ -1,6 +1,7 @@
-import { createElement } from "../src/index";
-/** @jsx createElement */
+import { MiniReact } from "../src/index";
+
+/** @jsx MiniReact.createElement */
 const Route = ({ path, component }) => {
-    return createElement(component)
+    return MiniReact.createElement(component)
 }
 export default Route

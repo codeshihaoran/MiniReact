@@ -1,8 +1,9 @@
 import './articles.css'
-import { createElement } from '../../index'
+import { MiniReact } from '../../index'
 import marked from 'marked'
 import Link from '../link'
-/** @jsx createElement */
+
+/** @jsx MiniReact.createElement */
 const Articles = ({ title, time, number }) => {
     return (
         <div className="article-name">

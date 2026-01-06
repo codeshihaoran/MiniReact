@@ -1,4 +1,4 @@
-import { createElement } from "../index"
+import { MiniReact } from "../index"
 
 import Home from '../page/Home/home'
 import About from "../page/About/about"
@@ -9,7 +9,7 @@ import Resume from "../page/Resume/resume"
 import Switch from "../../Router/switch"
 import Route from '../../Router/route'
 
-/** @jsx createElement */
+/** @jsx MiniReact.createElement */
 const Main = () => {
     return (
         <main className="main-content">

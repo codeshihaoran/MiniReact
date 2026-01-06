@@ -1,5 +1,5 @@
+import { MiniReact } from './index'
 // Hook
-import { createElement } from './index'
 import useState from '../React/useState'
 import useRef from '../React/useRef'
 import useEffect from '../React/useEffect'
@@ -13,7 +13,9 @@ import './App.css'
 import Navbar from '../src/compentens/navbar'
 import Main from '../src/compentens/main'
 import Footer from '../src/compentens/footer'
-/** @jsx createElement */
+
+/** @jsx MiniReact.createElement */
+/** @jsxFrag MiniReact.Fragment */
 function App() {
     return (
         <div className="app">

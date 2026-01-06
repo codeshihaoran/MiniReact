@@ -1,4 +1,4 @@
-import { createElement } from "../../index"
+import { MiniReact } from "../../index"
 import useState from "../../../React/useState"
 import useEffect from "../../../React/useEffect"
 import useRef from "../../../React/useRef"
@@ -6,7 +6,8 @@ import useRef from "../../../React/useRef"
 import marked from "marked"
 import './detail.css'
 
-/** @jsx createElement */
+/** @jsx MiniReact.createElement */
+/** @jsxFrag MiniReact.Fragment */
 const Detail = () => {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('articleId')
@@ -63,10 +64,10 @@ const Detail = () => {
 
     if (issue) {
         return (
-            <div>
+            <>
                 <div className="detail-title"><h2>{title}</h2></div>
                 <div className="detail" ref={dom}></div>
-            </div>
+            </>
         )
     } else {
         return (

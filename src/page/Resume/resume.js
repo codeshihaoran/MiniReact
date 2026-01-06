@@ -1,11 +1,12 @@
-import { createElement } from "../../index"
+import { MiniReact } from "../../index"
 import './resume.css'
 import useEffect from "../../../React/useEffect"
 import useState from "../../../React/useState"
 import useRef from "../../../React/useRef"
 import marked from "marked"
 
-/** @jsx createElement */
+/** @jsx MiniReact.createElement */
+/** @jsxFrag MiniReact.Fragment */
 const Resume = () => {
     const [resume, setResume] = useState('')
     const [loading, setLoading] = useState(true)
@@ -26,7 +27,6 @@ const Resume = () => {
         }
         fetchCV()
     }, [])
-    console.log(resume);
     useEffect(() => {
         if (dom.current) {
             dom.current.innerHTML = resume
@@ -47,9 +47,9 @@ const Resume = () => {
         )
     }
     return (
-        <div>
+        <>
             <div ref={dom}></div>
-        </div>
+        </>
     )
 }
 export default Resume

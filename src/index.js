@@ -94,8 +94,11 @@ function createDom(fiber) {
 }
 
 function performUnitOfWork(fiber) {
+  const isFargment = fiber.type === Fragment
   const isFunction = fiber.type instanceof Function
-  if (isFunction) {
+  if (isFargment) {
+    reconcileChildren(fiber, fiber.props.children)
+  } else if (isFunction) {
     updateFunctionComponent(fiber)
   } else {
     updateHostComponent(fiber)
@@ -340,4 +343,11 @@ render(
   container
 )
 
-export { createElement, globalState }
+const Fragment = 'MINI_REACT_FRAGMENT'
+
+const MiniReact = {
+  createElement,
+  Fragment
+}
+
+export { MiniReact, globalState }

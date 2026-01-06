@@ -1,9 +1,9 @@
-import { createElement } from '../../index'
+import { MiniReact } from '../../index'
 import './error.css'
-/** @jsx createElement */
+
+/** @jsx MiniReact.createElement */
 const NotFound = () => {
     return (
-
         <div className="wrap">
             <div className="logo">
                 <h1>404</h1>
@@ -13,7 +13,6 @@ const NotFound = () => {
                 </div>
             </div>
         </div>
-
     )
 }
 export default NotFound

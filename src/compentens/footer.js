@@ -1,5 +1,6 @@
-import { createElement } from "../index"
-/** @jsx createElement */
+import { MiniReact } from "../index"
+
+/** @jsx MiniReact.createElement */
 const Footer = () => {
     return (
         <footer className="footer">

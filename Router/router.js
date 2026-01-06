@@ -1,7 +1,9 @@
-import { createElement } from "../src/index";
+import { MiniReact } from "../src/index";
 import useState from "../React/useState";
 import useEffect from "../React/useEffect";
-/** @jsx createElement */
+
+/** @jsx MiniReact.createElement */
+/** @jsxFrag MiniReact.Fragment */
 const Router = ({ children }) => {
     const [currentPath, setCurrentPath] = useState(window.location.hash.slice(1) || "/");
 
@@ -14,13 +16,15 @@ const Router = ({ children }) => {
     }, []);
     console.log(currentPath);
     return (
-        <div>  {children.map(child => {
-            console.log(child);
-            if (child.props.path === currentPath) {
-                return child
-            }
-            return null;
-        })}</div>
+        <>
+            {children.map(child => {
+                console.log(child);
+                if (child.props.path === currentPath) {
+                    return child
+                }
+                return null;
+            })}
+        </>
 
     );
 }

@@ -1,6 +1,7 @@
-import { createElement } from "../index"
+import { MiniReact } from "../index"
 import Link from "./link"
-/** @jsx createElement */
+
+/** @jsx MiniReact.createElement */
 const Navbar = () => {
     return (
         <header className="header">

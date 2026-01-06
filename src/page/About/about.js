@@ -1,7 +1,8 @@
-import { createElement } from "../../index"
+import { MiniReact } from "../../index"
 import './about.css'
 import '../../compentens/articles/articles.css'
-/** @jsx createElement */
+
+/** @jsx MiniReact.createElement */
 const About = () => {
     return (
         <div className="about">

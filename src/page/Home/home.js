@@ -1,10 +1,11 @@
-import { createElement } from "../../index"
+import { MiniReact } from "../../index"
 import './home.css'
 import useState from "../../../React/useState"
 import useEffect from "../../../React/useEffect"
 import Articles from "../../compentens/articles/articles"
 import useMemo from "../../../React/useMemo"
-/** @jsx createElement */
+
+/** @jsx MiniReact.createElement */
 const Home = () => {
     const [issuesList, setIssueList] = useState([])
     const [loading, setLoading] = useState(true)

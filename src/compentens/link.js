@@ -1,5 +1,6 @@
-import { createElement } from "../index";
-/** @jsx createElement */
+import { MiniReact } from "../index";
+
+/** @jsx MiniReact.createElement */
 function Link({ to, children }) {
     const handleClick = (e) => {
         window.location.hash = to;
