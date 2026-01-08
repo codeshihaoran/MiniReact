@@ -2,40 +2,66 @@ import { globalState } from "../src/index"
 import { getHookIndex, addHookIndex } from "../src/compentens/hookIndex"
 
 
-function memoHook(calculateValue, dependencies) {
-    const result = calculateValue()
+function createHook(calculateValue, dependencies) {
     const hook = {
-        res: result,
+        res: calculateValue(),
         dep: dependencies
     }
     globalState.wipFiber.hooks[getHookIndex()] = hook
     addHookIndex()
     return hook.res
 }
+
+function copyHook(oldHook) {
+    const hook = oldHook
+    globalState.wipFiber.hooks[getHookIndex()] = hook
+    addHookIndex()
+    return hook.res
+}
+
+function areDepsEqual(oldDeps, newDeps) {
+    if (!oldDeps || !newDeps) {
+        return false
+    }
+
+    if (oldDeps.length !== newDeps.length) {
+        return false
+    }
+
+    let index = 0
+    while (index < newDeps.length) {
+        if (Object.is(oldDeps[index], newDeps[index])) {
+            index++
+        } else {
+            return false
+        }
+    }
+    return true
+}
+
 function useMemo(calculateValue, dependencies) {
     let oldHook = globalState.wipFiber.alternate
         && globalState.wipFiber.alternate.hooks
         && globalState.wipFiber.alternate.hooks[getHookIndex()]
+
     if (!oldHook) {
-        console.log('初始化渲染，计算值并保存');
-        return memoHook(calculateValue, dependencies)
-    } else {
-        let index = 0
-        while (index < dependencies.length) {
-            // React 使用 Object.is 将每个依赖项与其之前的值进行比较
-            if (Object.is(oldHook.dep[index], dependencies[index])) {
-                index++
-            } else {
-                console.log('依赖项发生变化，重新计算值');
-                return memoHook(calculateValue, dependencies)
-            }
-        }
-        console.log('依赖项未发生变化，返回原来值');
-        globalState.wipFiber.hooks[getHookIndex()] = oldHook
-        addHookIndex()
-        return oldHook.res
+        return createHook(calculateValue, dependencies)
     }
 
+    if (!dependencies) {
+        return createHook(calculateValue, dependencies)
+    }
+
+    if (dependencies.length === 0) {
+        return copyHook(oldHook)
+    }
+
+    const result = areDepsEqual(oldHook.dep, dependencies)
+    if (result) {
+        return copyHook(oldHook)
+    }
+
+    return createHook(calculateValue, dependencies)
 }
 
 export default useMemo
