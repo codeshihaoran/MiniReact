@@ -123,28 +123,58 @@ function updateHostComponent(fiber) {
 }
 
 function reconcileChildren(wipFiber, elements) {
-  let index = 0
+  // 1.收集 oldFiber：按 key / index 建表
   let oldFiber = wipFiber.alternate && wipFiber.alternate.child
+  const existingChildren = new Map()
+  let oldIndex = 0
+
+  while (oldFiber) {
+    const key = oldFiber.key != null ? oldFiber.key : oldIndex
+    existingChildren.set(key, oldFiber)
+    oldFiber = oldFiber.sibling
+    oldIndex++
+  }
+
+  // 2.遍历 elements，构建新的 fiber 链
   let prevSibling = null
-  while (index < elements.length || oldFiber != null) {
+  let fiberSiblingIndex = 0
+
+  for (let index = 0; index < elements.length; index++) {
     const element = elements[index]
+    if (!element) continue
+
+    const key = element.key != null ? element.key : index
+    const matchedOldFiber = existingChildren.get(key)
+
     let newFiber = null
-    const sameType = element && oldFiber && element.type === oldFiber.type
-    if (sameType) {
-      // 更新props effectTag：“UPDATE”
-      newFiber = {
-        type: oldFiber.type,
-        props: element.props,
-        parent: wipFiber,
-        dom: oldFiber.dom,
-        alternate: oldFiber,
-        effectTag: "UPDATE",
-      }
-    }
-    if (!sameType && element) {
-      // 插入
+
+    // 3.如果 key + type 都相同，则复用
+    if (matchedOldFiber && matchedOldFiber.type === element.type) {
       newFiber = {
         type: element.type,
+        key,
+        props: element.props,
+        parent: wipFiber,
+        dom: matchedOldFiber.dom,
+        alternate: matchedOldFiber,
+        effectTag: "UPDATE",
+      }
+
+      existingChildren.delete(key)
+    }
+    // 4.如果 key 不存在或者 type 不同，则新建
+    else {
+      // 如果 key 存在，但 type 不同，需要先卸载旧 fiber
+      if (matchedOldFiber) {
+        matchedOldFiber.effectTag = "DELETION"
+        globalState.deletions.push(matchedOldFiber)
+        existingChildren.delete(key)
+      }
+
+      // 新建 fiber
+      newFiber = {
+        type: element.type,
+        key,
         props: element.props,
         parent: wipFiber,
         dom: null,
@@ -152,22 +182,22 @@ function reconcileChildren(wipFiber, elements) {
         effectTag: "PLACEMENT",
       }
     }
-    if (!sameType && oldFiber) {
-      // 删除
-      oldFiber.effectTag = "DELETION"
-      globalState.deletions.push(oldFiber)
-    }
-    if (oldFiber) {
-      oldFiber = oldFiber.sibling
-    }
-    if (index === 0) {
+
+    // 5.构建 sibling 链
+    if (fiberSiblingIndex === 0) {
       wipFiber.child = newFiber
-    } else if (element) {
+    } else {
       prevSibling.sibling = newFiber
     }
     prevSibling = newFiber
-    index++
+    fiberSiblingIndex++
   }
+
+  // 6.对于没有匹配到 key 的剩余 oldFiber 节点同一删除
+  existingChildren.forEach(oldFiber => {
+    oldFiber.effectTag = "DELETION"
+    globalState.deletions.push(oldFiber)
+  })
 }
 
 // commit 阶段
